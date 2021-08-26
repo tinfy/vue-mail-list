@@ -10,7 +10,9 @@
         </el-input>
       </el-form-item>
       <el-form-item class="login_btn">
-        <el-button type="success" @click="register">前往注册</el-button>
+        <span>
+          首次使用？<el-link type="primary" :underline="false" @click="toRegister">点我注册</el-link>
+        </span>
         <div class="btn_right">
           <el-button :plain="true" type="primary" @click="login">登录</el-button>
           <el-button type="info" @click="resetForm">重置</el-button>
@@ -24,10 +26,12 @@
 export default {
   data () {
     return {
+      // 登录表单对象
       loginForm: {
         name: '',
         password: ''
       },
+      // 登录表单校验规则对象
       loginFormRules: {
         name: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -41,17 +45,36 @@ export default {
     }
   },
   methods: {
-    register () {
+    // 使用编程式导航跳转到 Register 组件
+    toRegister () {
       this.$router.push('/home/register')
     },
+    // 点击注册按钮执行的操作
     login () {
+      // 进行表单校验，只有校验成功才执行后续操作
       this.$refs.loginForm.validate(valid => {
+        // 校验失败，直接返回
         if (!valid) {
           return false
         }
-        this.$message.success('登录成功')
+        // 使用setTimeout模拟异步获取数据的操作
+        setTimeout(() => {
+          const userlist = JSON.parse(localStorage.getItem('userlist') || '[]')
+          // 判断用户名是否已经注册，没有注册的话，isRepeat的值为false
+          const hasRegist = userlist.some(item => {
+            return item.name === this.loginForm.name
+          })
+          // 如果用户名没有注册，则提示用户用户名不存在，并返回
+          if (!hasRegist) {
+            return this.$message.warning('用户名不存在，请先注册')
+          }
+          sessionStorage.setItem('token', new Date().toString())
+          this.$message.success('登录成功')
+          this.$router.push('/main')
+        }, 0)
       })
     },
+    // 重置表单信息
     resetForm () {
       this.$refs.loginForm.resetFields()
     }

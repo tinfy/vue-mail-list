@@ -4,46 +4,14 @@
       <h1 class="login_title">速讯</h1>
       <h2 class="login_subtitle">拉近我们心灵的距离，感知爱与牵绊</h2>
     </div>
+    <!-- 路由匹配到的组件渲染在这里 -->
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      loginForm: {
-        name: '',
-        password: ''
-      },
-      loginFormRules: {
-        name: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { max: 8, message: '用户名长度不超过8个字符', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, max: 12, message: '密码长度在 6 到 12 个字符', trigger: 'blur' }
-        ]
-      }
-    }
-  },
-  methods: {
-    register () {
-      this.$router.push('/register')
-    },
-    login () {
-      this.$refs.loginForm.validate(valid => {
-        if (!valid) {
-          return false
-        }
-        this.$message.success('登录成功')
-      })
-    },
-    resetForm () {
-      this.$refs.loginForm.resetFields()
-    }
-  }
+  data () {}
 }
 </script>
 

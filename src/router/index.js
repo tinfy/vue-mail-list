@@ -3,10 +3,12 @@ import VueRouter from 'vue-router'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import Home from '../components/Home.vue'
+import Main from '../components/Main.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  // 根目录重定向到 /home/login
   {
     path: '/',
     redirect: '/home/login'
@@ -20,11 +22,31 @@ const routes = [
       // 当 /home/register 匹配成功，Register会被渲染在Home的<router-view>中
       { path: 'register', component: Register }
     ]
+  },
+  {
+    path: '/main',
+    component: Main
+
   }
 ]
 
 const router = new VueRouter({
   routes
+})
+
+// 添加导航守卫
+router.beforeEach((to, from, next) => {
+  // 如果目标路由为登录或注册页面，直接放行
+  if (to.path === '/home/login' || to.path === '/home/register') {
+    return next()
+  }
+  // 获取token值
+  const token = sessionStorage.getItem('token')
+  // 如果token值不存在，则跳转到登录页面
+  if (!token) {
+    return next('/home/login')
+  }
+  next()
 })
 
 export default router
