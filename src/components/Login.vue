@@ -10,12 +10,12 @@
         </el-input>
       </el-form-item>
       <el-form-item class="login_btn">
-        <span>
+        <span class="link_text">
           首次使用？<el-link type="primary" :underline="false" @click="toRegister">点我注册</el-link>
         </span>
         <div class="btn_right">
-          <el-button :plain="true" type="primary" @click="login">登录</el-button>
-          <el-button type="info" @click="resetForm">重置</el-button>
+          <el-button type="primary" size="small" @click="login">登录</el-button>
+          <el-button type="info" size="small" @click="resetForm">重置</el-button>
         </div>
       </el-form-item>
     </el-form>
@@ -28,8 +28,8 @@ export default {
     return {
       // 登录表单对象
       loginForm: {
-        name: '',
-        password: ''
+        name: 'tom',
+        password: '1234567'
       },
       // 登录表单校验规则对象
       loginFormRules: {
@@ -60,16 +60,25 @@ export default {
         // 使用setTimeout模拟异步获取数据的操作
         setTimeout(() => {
           const userlist = JSON.parse(localStorage.getItem('userlist') || '[]')
-          // 判断用户名是否已经注册，没有注册的话，isRepeat的值为false
-          const hasRegist = userlist.some(item => {
+          // 判断用户名是否已经注册，没有注册的话，index的值为-1
+          const index = userlist.findIndex(item => {
             return item.name === this.loginForm.name
           })
           // 如果用户名没有注册，则提示用户用户名不存在，并返回
-          if (!hasRegist) {
+          if (index < 0) {
             return this.$message.warning('用户名不存在，请先注册')
           }
+          // 找到userlist数组中对应的用户对象
+          const userObject = userlist[index]
+          // 如果用户对象中的密码和表单中的密码不同，则提示用户
+          if (userObject.password !== this.loginForm.password) {
+            return this.$message.warning('密码错误')
+          }
+          // 记录一个token值，关闭页面后token值会自动删掉
           sessionStorage.setItem('token', new Date().toString())
+          sessionStorage.setItem('userInfo', JSON.stringify(userObject))
           this.$message.success('登录成功')
+          // 使用编程式导航到主页面
           this.$router.push('/main')
         }, 0)
       })
@@ -100,5 +109,9 @@ export default {
   .btn_right {
     float: right;
   }
+}
+
+.el-link {
+  vertical-align: top;
 }
 </style>

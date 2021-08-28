@@ -12,7 +12,7 @@
       </el-form-item>
       <el-form-item>
         <el-link type="primary" :underline="false" @click="toLogin" class="login-link">已有账号，直接登录></el-link>
-        <el-button type="success" @click="register" class="register_btn">注册</el-button>
+        <el-button type="success" size="small" @click="register" class="register_btn">注册</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -81,8 +81,6 @@ export default {
           userlist.push(this.registerForm)
           localStorage.setItem('userlist', JSON.stringify(userlist))
           this.$message.success('注册成功')
-          // 跳转到登录页面
-          // this.$router.push('/home/login')
         }, 0)
       })
     }

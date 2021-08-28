@@ -11,7 +11,9 @@
 
 <script>
 export default {
-  data () {}
+  data () {
+    return {}
+  }
 }
 </script>
 
@@ -19,19 +21,19 @@ export default {
 .login_container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  // align-items: center;
   height: 100%;
   min-width: 420px;
   background: url("../assets/img/bg.png");
   background-repeat: no-repeat;
   background-size: cover;
   flex-wrap: wrap;
-  align-content: center;
+  align-content: flex-start;
 }
 
 .login_header {
   width: 100%;
-  margin-top: -150px;
+  margin-top: 100px;
 
   .login_title {
     height: 40px;

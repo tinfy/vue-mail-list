@@ -4,6 +4,9 @@ import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 import Home from '../components/Home.vue'
 import Main from '../components/Main.vue'
+import MailList from '../components/MailList.vue'
+import AddCon from '../components/AddCon.vue'
+import UserInfo from '../components/UserInfo.vue'
 
 Vue.use(VueRouter)
 
@@ -25,8 +28,13 @@ const routes = [
   },
   {
     path: '/main',
-    component: Main
-
+    component: Main,
+    redirect: '/maillist',
+    children: [
+      { path: '/maillist', component: MailList },
+      { path: '/addcon', component: AddCon },
+      { path: '/userinfo', component: UserInfo }
+    ]
   }
 ]
 
