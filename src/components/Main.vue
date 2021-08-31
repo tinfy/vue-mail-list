@@ -9,21 +9,17 @@
         </div>
       </el-header>
       <el-container>
-        <el-aside width="200px">
-          <el-menu :default-active="selectedTabIndex" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-            <el-menu-item index="1" @click="changeTab(1)">
-              <i class="iconfont icon-tongxunlu"></i>
-              <span slot="title">通讯录</span>
-            </el-menu-item>
-            <el-menu-item index="2" @click="changeTab(2)">
-              <i class="iconfont icon-bianji"></i>
-              <span slot="title">添加信息</span>
-            </el-menu-item>
-            <el-menu-item index="3" @click="changeTab(3)">
-              <i class="iconfont icon-gerenzhongxin"></i>
-              <span slot="title">个人中心</span>
+        <el-aside width="280px">
+          <el-menu :default-active="activeIndex" background-color="#fff" text-color="#555" active-text-color="#fff" router>
+            <el-menu-item :class="{active: isActive('/' + item.path)}" :index="'/' + item.path" v-for="item in menulist" :key="item.id" @click="saveActiveIndex('/' + item.path)">
+              <i :class="iconlist[item.id]"></i>
+              <span slot="title">{{item.name}}</span>
             </el-menu-item>
           </el-menu>
+          <div class="logout_btn" @click="logout">
+            <i class="iconfont icon-shezhi"></i>
+            退出登录
+          </div>
         </el-aside>
         <el-main>
           <router-view></router-view>
@@ -42,30 +38,40 @@ export default {
         password: '',
         mobile: ''
       },
-      selectedTabIndex: '1'
+      activeIndex: '/maillist',
+      menulist: [
+        { id: 1, name: '通讯录', path: 'maillist' },
+        { id: 2, name: '添加信息', path: 'addcon' },
+        { id: 3, name: '个人中心', path: 'userinfo' }
+      ],
+      iconlist: {
+        1: 'iconfont icon-tongxunlu',
+        2: 'iconfont icon-bianji',
+        3: 'iconfont icon-gerenzhongxin'
+      }
     }
   },
   created () {
     this.userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+    // this.activeIndex = window.sessionStorage.getItem('activeIndex')
+  },
+  computed: {
+
   },
   methods: {
-    handleOpen (key, keyPath) {
-      console.log(key, keyPath)
+    // 保存当前激活的菜单对应的index
+    saveActiveIndex (path) {
+      window.sessionStorage.setItem('activeIndex', path)
+      this.activeIndex = path
     },
-    handleClose (key, keyPath) {
-      console.log(key, keyPath)
+    isActive (path) {
+      return this.activeIndex === path
     },
-    changeTab (index) {
-      if (index === 1) {
-        this.selectedTabIndex = '1'
-        this.$router.push('/maillist')
-      } else if (index === 2) {
-        this.selectedTabIndex = '2'
-        this.$router.push('/addcon')
-      } else {
-        this.selectedTabIndex = '3'
-        this.$router.push('/userinfo')
-      }
+    // 退出登录
+    logout () {
+      // 清除掉所有的sessionStorage
+      window.sessionStorage.clear()
+      this.$router.push('/home/login')
     }
   }
 }
@@ -77,26 +83,25 @@ export default {
 }
 
 .el-header {
-  // line-height: 100px;
   height: 100px !important;
   background-image: url("../assets/img/bg.png");
   background-size: cover;
 }
 
-.el-aside {
-  background-color: #d3dce6;
-  color: #333;
-  text-align: center;
-  line-height: 200px;
-  height: 400px;
+.el-container {
+  height: 100%;
+  .el-aside {
+    position: relative;
+    background-color: #eee;
+  }
 }
 
-.el-main {
-  background-color: #e9eef3;
-  color: #333;
-  text-align: center;
-  line-height: 160px;
-}
+// .el-main {
+//   background-color: #e9eef3;
+//   color: #333;
+//   text-align: center;
+//   line-height: 160px;
+// }
 
 .el-header {
   display: flex;
@@ -111,18 +116,38 @@ export default {
 }
 .head_pic {
   vertical-align: middle;
-
   span {
     font-size: 20px;
     display: inline-block;
     margin-right: 15px;
     color: #555;
   }
-
   img {
     width: 75px;
     height: 75px;
     border-radius: 50%;
   }
+}
+
+.el-menu-item {
+  font-size: 18px;
+  padding-left: 20px;
+  border: 1.2px solid #eee;
+  .iconfont {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+}
+
+.active {
+  background-color: #0f88eb !important;
+}
+
+.logout_btn {
+  position: absolute;
+  right: 15px;
+  bottom: 30px;
+  color: #555;
+  cursor: pointer;
 }
 </style>
