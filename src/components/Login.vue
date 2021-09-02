@@ -29,7 +29,7 @@ export default {
       // 登录表单对象
       loginForm: {
         name: 'tom',
-        password: '1234567'
+        password: '123456'
       },
       // 登录表单校验规则对象
       loginFormRules: {

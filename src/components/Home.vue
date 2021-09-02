@@ -40,7 +40,7 @@ export default {
     font-size: 50px;
     letter-spacing: 10px;
     color: #409eff;
-    font-family: "Times New Roman", Times, serif;
+    font-family: 'Times New Roman', Times, serif;
     text-align: center;
   }
 

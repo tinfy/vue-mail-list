@@ -113,6 +113,7 @@ export default {
 .head_title {
   font-size: 50px;
   color: #409eff;
+  font-family: '\5E7C\5706', 'Times New Roman', Times, serif;
 }
 .head_pic {
   vertical-align: middle;

@@ -15,7 +15,13 @@ import {
   Menu,
   MenuItem,
   Descriptions,
-  DescriptionsItem
+  DescriptionsItem,
+  Select,
+  Option,
+  Card,
+  Table,
+  TableColumn,
+  Dialog
 } from 'element-ui'
 
 Vue.use(Button)
@@ -33,4 +39,10 @@ Vue.use(Menu)
 Vue.use(MenuItem)
 Vue.use(Descriptions)
 Vue.use(DescriptionsItem)
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Card)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Dialog)
 Vue.prototype.$message = Message
