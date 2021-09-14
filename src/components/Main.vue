@@ -38,7 +38,7 @@ export default {
         password: '',
         mobile: ''
       },
-      activeIndex: '/maillist',
+      activeIndex: '',
       menulist: [
         { id: 1, name: '通讯录', path: 'maillist' },
         { id: 2, name: '添加信息', path: 'addcon' },
@@ -53,7 +53,7 @@ export default {
   },
   created () {
     this.userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
-    // this.activeIndex = window.sessionStorage.getItem('activeIndex')
+    this.activeIndex = window.sessionStorage.getItem('activeIndex') == null ? '/maillist' : window.sessionStorage.getItem('activeIndex')
   },
   computed: {
 
@@ -113,7 +113,7 @@ export default {
 .head_title {
   font-size: 50px;
   color: #409eff;
-  font-family: '\5E7C\5706', 'Times New Roman', Times, serif;
+  font-family: "\5E7C\5706", "Times New Roman", Times, serif;
 }
 .head_pic {
   vertical-align: middle;

@@ -1,40 +1,27 @@
 <template>
-  <div>
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <el-button type="primary" @click="showEditDialog">编辑信息</el-button>
-      </div>
-      <el-table :data="userInfo" border style="width: 100%">
-        <el-table-column prop="name" label="用户名" width="200">
-        </el-table-column>
-        <el-table-column prop="password" label="密码" width="200">
-        </el-table-column>
-        <el-table-column prop="mobile" label="手机" width="200">
-        </el-table-column>
-        <el-table-column prop="signature" label="个性签名">
-        </el-table-column>
-      </el-table>
-    </el-card>
-    <el-dialog title="编辑信息" :visible.sync="dialogVisible" width="30%" @close="handleClose">
-      <el-form :model="editForm" :rules="editFormRules" ref="editForm" label-width="100px">
-        <el-form-item label="用户名">
-          <el-input v-model="editForm.name" disabled></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="editForm.password"></el-input>
-        </el-form-item>
-        <el-form-item label="手机" prop="mobile">
-          <el-input v-model="editForm.mobile"></el-input>
-        </el-form-item>
-        <el-form-item label="个性签名" prop="signature">
-          <el-input v-model="editForm.signature"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
+  <div class="userinfo_container">
+    <h2 class="header">个人信息</h2>
+    <el-form class="userinfo_form" :model="editForm" :rules="editFormRules" ref="editForm" label-width="100px" :disabled="disabledFlag">
+      <el-form-item label="用户名">
+        <el-input v-model="editForm.name" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="editForm.password" show-password></el-input>
+      </el-form-item>
+      <el-form-item label="手机" prop="mobile">
+        <el-input v-model="editForm.mobile"></el-input>
+      </el-form-item>
+      <el-form-item label="个性签名" prop="signature">
+        <el-input v-model="editForm.signature"></el-input>
+      </el-form-item>
+    </el-form>
+    <div class="btn" v-show="disabledFlag">
+      <el-button class="edit_btn" type="primary" @click="editInfo">编辑信息</el-button>
+    </div>
+    <div class="btn" v-show="!disabledFlag">
+      <el-button class="save_btn" type="primary" @click="saveInfo">保存</el-button>
+      <el-button class="back_btn" type="info" @click="goback">返回</el-button>
+    </div>
   </div>
 </template>
 
@@ -50,8 +37,6 @@ export default {
       callback(new Error('请输入合法的手机号'))
     }
     return {
-      dialogVisible: false,
-      userInfo: [],
       editForm: {},
       editFormRules: {
         password: [
@@ -62,7 +47,9 @@ export default {
           { required: true, message: '请输入手机号', trigger: 'blur' },
           { validator: checkMobile, trigger: 'blur' }
         ]
-      }
+      },
+      dialogVisible: false,
+      disabledFlag: true
     }
   },
   created () {
@@ -71,22 +58,61 @@ export default {
     const user = userlist.find(item => {
       return item.name === name
     })
-    this.userInfo.push(user)
+    this.editForm = user
   },
   methods: {
-    showEditDialog () {
-      const userlist = JSON.parse(window.localStorage.getItem('userlist'))
-      this.editForm = userlist.find(item => {
-        return item.name === this.userInfo[0].name
-      })
-      this.dialogVisible = true
+    editInfo () {
+      this.disabledFlag = false
     },
-    handleClose () {
-      console.log()
+    saveInfo () {
+      this.disabledFlag = true
+    },
+    goback () {
+      this.disabledFlag = true
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.userinfo_container {
+  position: relative;
+  .header {
+    position: relative;
+    left: 50%;
+    margin-left: -250px;
+    width: 400px;
+    text-align: center;
+    font-size: 38px;
+    font-family: "\5E7C\5706";
+    color: #606266;
+    letter-spacing: 1px;
+  }
+  .userinfo_form {
+    width: 400px;
+    position: relative;
+    left: 50%;
+    margin-left: -250px;
+    .el-form-item__label {
+      font-size: 18px;
+    }
+  }
+  .btn {
+    // border: 1px solid #000;
+    position: relative;
+    left: 50%;
+    margin-left: -150px;
+    width: 300px;
+    font-size: 16px;
+    .edit_btn {
+      width: 300px;
+    }
+    .save_btn {
+      width: 145px;
+    }
+    .back_btn {
+      width: 145px;
+    }
+  }
+}
 </style>

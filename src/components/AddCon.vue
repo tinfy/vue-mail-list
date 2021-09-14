@@ -14,8 +14,8 @@
       <el-form-item label="备注">
         <el-input v-model="addConForm.remark" suffix-icon="iconfont icon-beizhu" placeholder="请输入备注"></el-input>
       </el-form-item>
-      <el-form-item label="关系">
-        <el-select class="sel_rel" prefix-icon="iconfont icon-mima" v-model="addConForm.relation" placeholder="请选择关系">
+      <el-form-item label="与我的关系">
+        <el-select class="sel_rel" prefix-icon="iconfont icon-mima" v-model="addConForm.relation" placeholder="请选择">
           <el-option label="亲人" value="qr"></el-option>
           <el-option label="朋友" value="py"></el-option>
           <el-option label="同学" value="tx"></el-option>
@@ -59,16 +59,17 @@ export default {
     width: 400px;
     position: relative;
     left: 50%;
-    margin-left: -150px;
+    margin-left: -260px;
     font-size: 38px;
     letter-spacing: 1px;
     color: #606266;
     font-family: "\5E7C\5706";
+    text-align: center;
   }
 }
 .addcon_form {
   width: 400px;
-  height: 300px;
+  // height: 300px;
   position: relative;
   left: 50%;
   margin-left: -300px;
@@ -76,13 +77,14 @@ export default {
     font-size: 18px;
   }
   .sel_rel {
-      width: 140px;
+    width: 140px;
   }
   .add_btn {
-    width: 140px;
+    width: 160px;
     font-size: 16px;
     padding-top: 10px;
     padding-bottom: 10px;
+    margin-left: 20px;
   }
 }
 </style>
