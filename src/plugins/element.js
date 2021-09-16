@@ -21,7 +21,8 @@ import {
   Card,
   Table,
   TableColumn,
-  Dialog
+  Dialog,
+  Radio
 } from 'element-ui'
 
 Vue.use(Button)
@@ -45,4 +46,5 @@ Vue.use(Card)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Dialog)
+Vue.use(Radio)
 Vue.prototype.$message = Message
