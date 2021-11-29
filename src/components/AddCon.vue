@@ -43,7 +43,8 @@ export default {
   },
   methods: {
     addCon () {
-
+      // const contactList = window.localStorage.getItem('contactList') || []
+      // window.localStorage.setItem
     }
   }
 }

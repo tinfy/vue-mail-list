@@ -11,7 +11,7 @@
         <el-input placeholder="手机" prefix-icon="el-icon-date" v-model="registerForm.mobile"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-link type="primary" :underline="false" @click="toLogin" class="login-link">已有账号，直接登录></el-link>
+        <el-link type="primary" :underline="false" @click="toLogin" class="login-link">返回登录></el-link>
         <el-button type="success" size="small" @click="register" class="register_btn">注册</el-button>
       </el-form-item>
     </el-form>

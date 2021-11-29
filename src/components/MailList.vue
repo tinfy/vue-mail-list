@@ -11,19 +11,35 @@
         <el-radio v-model="radio" label="3">朋友</el-radio>
         <el-radio v-model="radio" label="4">同学</el-radio>
       </div>
-      <div>
+      <div class="list-content">
+        <contact-info v-for="item in contactList" :key="item.id" :name="item.name" :phone="item.phone"></contact-info>
       </div>
     </el-card>
   </div>
 </template>
 
 <script>
+import ContactInfo from './ContactInfo.vue'
+
 export default {
+  components: { ContactInfo },
   data () {
     return {
       queryParam: '',
       contactNum: 0,
-      radio: '1'
+      radio: '1',
+      contactList: [
+        {
+          id: 1,
+          name: 'Tom',
+          phone: '13971494033'
+        },
+        {
+          id: 2,
+          name: 'Jerry',
+          phone: '13971494033'
+        }
+      ]
     }
   },
   methods: {
@@ -35,5 +51,8 @@ export default {
 <style lang="scss" scoped>
 .query_input {
   width: 600px;
+}
+.list-content {
+  margin-top: 30px;
 }
 </style>
