@@ -3,7 +3,7 @@
     <img src="../assets/img/headicon.jpg" class="contact-headicon" alt="headicon" />
     <div class="content">
       <p class="content-name">{{name}}</p>
-      <p class="content-phone">{{phone}}</p>
+      <p class="content-mobile">{{mobile}}</p>
     </div>
     <i class="iconfont icon-xiugai"></i>
     <i class="iconfont icon-shanchu"></i>
@@ -18,7 +18,7 @@ export default {
       type: String,
       default: ''
     },
-    phone: {
+    mobile: {
       type: String,
       default: ''
     }

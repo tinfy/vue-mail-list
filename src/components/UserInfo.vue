@@ -1,7 +1,7 @@
 <template>
   <div class="userinfo_container">
     <h2 class="header">个人信息</h2>
-    <el-form class="userinfo_form" :model="editForm" :rules="editFormRules" ref="editForm" label-width="100px" :disabled="disabledFlag">
+    <el-form class="userinfo_form" :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="100px" :disabled="disabledFlag">
       <el-form-item label="用户名">
         <el-input v-model="editForm.name" disabled></el-input>
       </el-form-item>
@@ -65,7 +65,19 @@ export default {
       this.disabledFlag = false
     },
     saveInfo () {
-      this.disabledFlag = true
+      this.$refs.editFormRef.validate(valid => {
+        if (!valid) {
+          return false
+        }
+        const userlist = JSON.parse(window.localStorage.getItem('userlist'))
+        const index = userlist.findIndex(item => {
+          return item.name === this.editForm.name
+        })
+        userlist.splice(index, 1, this.editForm)
+        window.localStorage.setItem('userlist', JSON.stringify(userlist))
+        this.$message.success('修改成功')
+        this.disabledFlag = true
+      })
     },
     goback () {
       this.disabledFlag = true
