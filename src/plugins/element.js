@@ -22,7 +22,9 @@ import {
   Table,
   TableColumn,
   Dialog,
-  Radio
+  Radio,
+  // MessageBox,
+  Popover
 } from 'element-ui'
 
 Vue.use(Button)
@@ -47,4 +49,7 @@ Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Dialog)
 Vue.use(Radio)
+// Vue.use(MessageBox)
+Vue.use(Popover)
 Vue.prototype.$message = Message
+// Vue.prototype.$confirm = MessageBox

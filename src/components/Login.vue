@@ -57,30 +57,25 @@ export default {
         if (!valid) {
           return false
         }
-        // 使用setTimeout模拟异步获取数据的操作
-        setTimeout(() => {
-          const userlist = JSON.parse(localStorage.getItem('userlist') || '[]')
-          // 判断用户名是否已经注册，没有注册的话，index的值为-1
-          const index = userlist.findIndex(item => {
-            return item.name === this.loginForm.name
-          })
-          // 如果用户名没有注册，则提示用户用户名不存在，并返回
-          if (index < 0) {
-            return this.$message.warning('用户名不存在，请先注册')
-          }
-          // 找到userlist数组中对应的用户对象
-          const userObject = userlist[index]
-          // 如果用户对象中的密码和表单中的密码不同，则提示用户
-          if (userObject.password !== this.loginForm.password) {
-            return this.$message.warning('密码错误')
-          }
-          // 记录一个token值，关闭页面后token值会自动删掉
-          sessionStorage.setItem('token', new Date().toString())
-          sessionStorage.setItem('userInfo', JSON.stringify(userObject))
-          this.$message.success('登录成功')
-          // 使用编程式导航到主页面
-          this.$router.push('/main')
-        }, 0)
+        const userlist = JSON.parse(localStorage.getItem('userlist') || '[]')
+        // 判断用户名是否已经注册，没有注册的话，index的值为-1
+        const index = userlist.findIndex(item => item.name === this.loginForm.name)
+        // 如果用户名没有注册，则提示用户用户名不存在，并返回
+        if (index < 0) {
+          return this.$message.warning('用户名不存在，请先注册')
+        }
+        // 找到userlist数组中对应的用户对象
+        const userObject = userlist[index]
+        // 如果用户对象中的密码和表单中的密码不同，则提示用户
+        if (userObject.password !== this.loginForm.password) {
+          return this.$message.warning('密码错误')
+        }
+        // 记录一个token值，关闭页面后token值会自动删掉
+        sessionStorage.setItem('token', new Date().toString())
+        sessionStorage.setItem('userInfo', JSON.stringify(userObject))
+        this.$message.success('登录成功')
+        // 使用编程式导航到主页面
+        this.$router.push('/main')
       })
     },
     // 重置表单信息

@@ -70,9 +70,7 @@ export default {
           return false
         }
         const userlist = JSON.parse(window.localStorage.getItem('userlist'))
-        const index = userlist.findIndex(item => {
-          return item.name === this.editForm.name
-        })
+        const index = userlist.findIndex(item => item.name === this.editForm.name)
         userlist.splice(index, 1, this.editForm)
         window.localStorage.setItem('userlist', JSON.stringify(userlist))
         this.$message.success('修改成功')

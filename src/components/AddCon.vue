@@ -14,7 +14,7 @@
       <el-form-item label="备注" prop="remark">
         <el-input v-model="addConForm.remark" suffix-icon="iconfont icon-beizhu" placeholder="请输入备注"></el-input>
       </el-form-item>
-      <el-form-item label="与我的关系" prop="relation">
+      <el-form-item label="分组" prop="relation">
         <el-select class="sel_rel" prefix-icon="iconfont icon-mima" v-model="addConForm.relation" placeholder="请选择">
           <el-option label="亲人" value="qr"></el-option>
           <el-option label="朋友" value="py"></el-option>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 export default {
   data () {
     // 自定义校验规则，判断手机号是否符合规范
@@ -49,6 +50,7 @@ export default {
     }
     return {
       addConForm: {
+        id: 0,
         name: '',
         mobile: '',
         email: '',
@@ -77,27 +79,36 @@ export default {
     }
   },
   methods: {
+    // 导入 vuex 中的 mutations: getNextContactId
+    ...mapMutations(['getNextContactId']),
+    // 点击“添加”按钮执行的操作
     addCon () {
+      // 在添加前先校验数据有效性
       this.$refs.addConFormRef.validate(valid => {
         if (!valid) {
           return false
         }
         const contactlist = JSON.parse(window.localStorage.getItem('contactlist') || '[]')
         // 判断姓名是否重复，重复的话，isRepeat的值为true
-        const isRepeat = contactlist.some(item => {
-          return item.name === this.addConForm.name
-        })
-        // 如果用户名重复，则提示用户注册失败，并返回
+        const isRepeat = contactlist.some(item => item.name === this.addConForm.name)
+        // 如果姓名重复，则提示添加失败，并返回
         if (isRepeat) {
           return this.$message.warning('添加失败，姓名重复')
         }
-        // 不重复则把表单中填的信息存到localSession中，并提示用户添加成功
+        // 不重复则把表单中填的信息存到localSession中，并提示添加成功
+        this.addConForm.id = this.contactId
         contactlist.push(this.addConForm)
+        // 添加一个联系人后，id 加一
+        this.getNextContactId()
         localStorage.setItem('contactlist', JSON.stringify(contactlist))
         this.$message.success('添加成功')
         this.$refs.addConFormRef.resetFields()
       })
     }
+  },
+  computed: {
+    // 导入 vuex 中的 state: contactId
+    ...mapState(['contactId'])
   }
 }
 </script>

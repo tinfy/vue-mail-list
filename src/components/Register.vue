@@ -66,22 +66,17 @@ export default {
         if (!valid) {
           return false
         }
-        // 使用setTimeout模拟异步获取数据的操作
-        setTimeout(() => {
-          const userlist = JSON.parse(localStorage.getItem('userlist') || '[]')
-          // 判断用户名是否重复，重复的话，isRepeat的值为true
-          const isRepeat = userlist.some((item, index, array) => {
-            return item.name === this.registerForm.name
-          })
-          // 如果用户名重复，则提示用户注册失败，并返回
-          if (isRepeat) {
-            return this.$message.warning('注册失败，用户名重复')
-          }
-          // 不重复则把用户填的信息存到localSession中，并提示用户注册成功
-          userlist.push(this.registerForm)
-          localStorage.setItem('userlist', JSON.stringify(userlist))
-          this.$message.success('注册成功')
-        }, 0)
+        const userlist = JSON.parse(localStorage.getItem('userlist') || '[]')
+        // 判断用户名是否重复，重复的话，isRepeat的值为true
+        const isRepeat = userlist.some(item => item.name === this.registerForm.name)
+        // 如果用户名重复，则提示用户注册失败，并返回
+        if (isRepeat) {
+          return this.$message.warning('注册失败，用户名重复')
+        }
+        // 不重复则把用户填的信息存到localSession中，并提示用户注册成功
+        userlist.push(this.registerForm)
+        localStorage.setItem('userlist', JSON.stringify(userlist))
+        this.$message.success('注册成功')
       })
     }
   }
