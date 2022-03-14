@@ -11,7 +11,7 @@
       <el-container>
         <el-aside width="280px">
           <el-menu :default-active="activeIndex" background-color="#fff" text-color="#555" active-text-color="#fff" router>
-            <el-menu-item :class="{active: isActive('/' + item.path)}" :index="'/' + item.path" v-for="item in menulist" :key="item.id" @click="saveActiveIndex('/' + item.path)">
+            <el-menu-item :class="{ active: isActive('/' + item.path) }" :index="'/' + item.path" v-for="item in menulist" :key="item.id">
               <i :class="iconlist[item.id]"></i>
               <span slot="title">{{item.name}}</span>
             </el-menu-item>
@@ -53,17 +53,14 @@ export default {
   },
   created () {
     this.userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
-    this.activeIndex = window.sessionStorage.getItem('activeIndex') == null ? '/maillist' : window.sessionStorage.getItem('activeIndex')
+    this.activeIndex = this.$route.path
   },
-  computed: {
-
+  watch: {
+    $route (to, from) {
+      this.activeIndex = to.path
+    }
   },
   methods: {
-    // 保存当前激活的菜单对应的index
-    saveActiveIndex (path) {
-      window.sessionStorage.setItem('activeIndex', path)
-      this.activeIndex = path
-    },
     isActive (path) {
       return this.activeIndex === path
     },

@@ -39,8 +39,9 @@ export default {
       const contactlist = JSON.parse(window.localStorage.getItem('contactlist') || '[]')
       if (this.queryParam !== '') {
         this.contactlist = contactlist.filter(item => item.name.includes(this.queryParam.trim()))
+      } else {
+        this.contactlist = contactlist
       }
-      this.contactlist = contactlist
     }
   }
 }
