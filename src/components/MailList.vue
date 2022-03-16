@@ -6,13 +6,14 @@
       </el-input>
       <p>共有 {{contactNum}} 个联系人</p>
       <div>
-        <el-radio v-model="radio" label="1">所有联系人</el-radio>
-        <el-radio v-model="radio" label="2">亲人</el-radio>
-        <el-radio v-model="radio" label="3">朋友</el-radio>
-        <el-radio v-model="radio" label="4">同学</el-radio>
+        <el-radio v-model="radio" label="all" @change="getContactList">所有联系人</el-radio>
+        <el-radio v-model="radio" label="qr" @change="getContactList">亲人</el-radio>
+        <el-radio v-model="radio" label="py" @change="getContactList">朋友</el-radio>
+        <el-radio v-model="radio" label="tx" @change="getContactList">同学</el-radio>
       </div>
       <div class="list-content">
-        <contact-info v-for="item in contactlist" :key="item.id" :name="item.name" :mobile="item.mobile"></contact-info>
+        <!-- 子组件定义了一个 transfer-getcontactlist 方法 -->
+        <contact-info v-for="item in contactlist" :key="item.id" :id="item.id" :name="item.name" :mobile="item.mobile" @transfer-getcontactlist="getContactList"></contact-info>
       </div>
     </el-card>
   </div>
@@ -25,9 +26,13 @@ export default {
   components: { ContactInfo },
   data () {
     return {
+      // 搜索框中的查询参数
       queryParam: '',
+      // 联系人数量
       contactNum: 0,
-      radio: '1',
+      // 单选按钮选中的值
+      radio: 'all',
+      // 联系人列表
       contactlist: []
     }
   },
@@ -35,13 +40,19 @@ export default {
     this.getContactList()
   },
   methods: {
+    // 获取联系人列表
     getContactList () {
-      const contactlist = JSON.parse(window.localStorage.getItem('contactlist') || '[]')
+      let contactlist = JSON.parse(window.localStorage.getItem('contactlist') || '[]')
+      // 按照搜索框中的参数过滤
       if (this.queryParam !== '') {
-        this.contactlist = contactlist.filter(item => item.name.includes(this.queryParam.trim()))
-      } else {
-        this.contactlist = contactlist
+        contactlist = contactlist.filter(item => item.name.includes(this.queryParam.trim()))
       }
+      // 按照单选按钮选中的值过滤
+      if (this.radio !== 'all') {
+        contactlist = contactlist.filter(item => item.relation === this.radio)
+      }
+      this.contactlist = contactlist
+      this.contactNum = this.contactlist.length
     }
   }
 }
@@ -52,6 +63,10 @@ export default {
   width: 600px;
 }
 .list-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  // align-content: space-around;
   margin-top: 30px;
 }
 </style>

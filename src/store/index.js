@@ -5,15 +5,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    menulist: []
+    // 联系人 id
+    contactId: 0
   },
   mutations: {
-    getMenulist () {
-
+    getNextContactId (state) {
+      state.contactId++
     }
   },
-  actions: {
-  },
-  modules: {
-  }
+  actions: {},
+  modules: {}
 })
